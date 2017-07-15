@@ -1,0 +1,4 @@
+.idea/
+omnium_gatherum/secret_settings.py
+db.sqlite3
+*__pycache__*
