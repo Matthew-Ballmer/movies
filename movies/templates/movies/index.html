@@ -1,35 +1,60 @@
 {% load staticfiles %}
 <html>
     <head>
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
         <link rel="stylesheet" href="{% static 'css/movies.css' %}">
     </head>
     <body>
         <div class="page-header">
-            <h1><a href="/movies">Повторные премьеры</a></h1>
+            <h1>The second premieres</h1>
         </div>
-        <h1>Есть даты:</h1>
-        <ul>
-        {% for movie in dvd_releases %}
-            <li>"{{ movie.title }}" : {{ movie.dvd_release_date }},
-                updated: {{ movie.update_date }}</li>
-        {% endfor %}
-        </ul>
 
-        <h1>Нет дат:</h1>
-        <ul>
-        {% for movie in unknown_dvd_releases %}
-            <li>"{{ movie.title }}",
-                причина : {{ movie.dvd_release_date_status }},
-                updated: {{ movie.update_date }}</li>
-        {% endfor %}
-        </ul>
+        <nav>
+            <ul>
+                <li><a href="#known-dates">Known dates</a></li>
+                <li><a href="#unknown-dates">Unknown dates</a></li>
+            </ul>
+        </nav>
 
-        <form action="{% url 'movies:update' %}" method="post">
-            {% csrf_token %}
-            <input type="submit" value="Update" />
-        </form>
+        <div class="update-button">
+            <form action="{% url 'movies:update' %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Update" />
+            </form>
+        </div>
+
+        <div class="content">
+            <h2 id="known-dates">Known dates</h2>
+            <table>
+                <tr>
+                    <th class="movie-col" width="40%">Movie</th>
+                    <th class="date-col" width="30%">Second premiere date</th>
+                    <th class="updated-col">Updated</th>
+                </tr>
+                {% for movie in dvd_releases %}
+                <tr>
+                    <td class="movie-col">{{ movie.title }}</td>
+                    <td class="date-col">{{ movie.dvd_release_date }}</td>
+                    <td class="updated-col">{{ movie.update_date }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <h2 id="unknown-dates">Unknown dates</h2>
+            <table>
+                <tr>
+                    <th class="movie-col" width="40%">Movie</th>
+                    <th class="reason-col" width="30%">Reason</th>
+                    <th class="updated-col">Updated</th>
+                </tr>
+                {% for movie in unknown_dvd_releases %}
+                <tr>
+                    <td class="movie-col">{{ movie.title }}</td>
+                    <td class="reason-col">{{ movie.dvd_release_date_status }}</td>
+                    <td class="updated-col">{{ movie.update_date }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
     </body>
 </html>

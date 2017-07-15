@@ -1,14 +1,79 @@
-h1 {
-    color: #4BA6C4;
-    font-family: 'Lobster';
-}
-
 body {
-    padding-left: 15px;
+    font-family: 'Lato', sans-serif;
+    background-color: #f7f7f7;
 }
+h1 {
 
+}
 .page-header {
-    background-color: #B4CAD1;
-    margin-top: 0;
-    padding: 20px 20px 20px 40px;
+    height: 70px;
+    background-color: #021921;
+    padding: 10px;
+    padding-left: 30px;
+    color: lightgrey;
+}
+nav {
+    padding: 0;
+    width: 220px;
+    float: left;
+    background-color: #323546;
+}
+nav ul {
+    padding: 0;
+}
+nav li {
+    list-style-position: inside;
+    padding: 10px;
+    padding-left: 30px;
+    margin: 0;
+    display: inline-block;
+}
+nav a {
+    text-decoration: none;
+    color: lightgrey;
+}
+.content {
+    margin-left: 250px;
+}
+table {
+    border-collapse: collapse;
+    width: 80%;
+    margin: 5px;
+}
+th {
+    border-bottom: 1px solid black;
+    padding: 10px;
+    background-color: #236161;
+    color: lightgray;
+}
+td {
+    border-bottom: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+    padding: 5px;
+}
+.movie-col {
+    text-align: left;
+}
+.updated-col {
+    text-align: right;
+}
+.date-col {
+    text-align: left;
+}
+.reason-col {
+    text-align: left;
+}
+input[type=submit] {
+    background: darkcyan;
+    border-radius: 0;
+    border: 2px solid #2e6f69;
+    padding: 5px;
+    width: 100px;
+    height: 40px;
+    color: black;
+}
+.update-button {
+    float: right;
+    margin: 20px;
+    margin-right: 40px;
 }
