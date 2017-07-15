@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 
 from .secret_settings import SECRET_KEY as VERY_SECRET_KEY
+from .secret_settings import DEBUG as CURRENT_DEBUG
+from .secret_settings import ALLOWED_HOSTS as CURRENT_ALLOWED_HOSTS
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,11 +24,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = CURRENT_DEBUG
 
 SECRET_KEY = VERY_SECRET_KEY
 
-ALLOWED_HOSTS = ['amberdespair.pythonanywhere.com']
+ALLOWED_HOSTS = CURRENT_ALLOWED_HOSTS
 
 
 # Application definition
