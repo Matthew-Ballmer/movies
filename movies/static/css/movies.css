@@ -40,6 +40,13 @@ table {
     width: 80%;
     margin: 5px;
 }
+.known-dates-table tr:hover {
+    background-color: lightgreen;
+}
+.unknown-dates-table tr:hover {
+    background-color: darkred;
+    color: white;
+}
 th {
     border-bottom: 1px solid black;
     padding: 10px;
@@ -63,7 +70,7 @@ td {
 .reason-col {
     text-align: left;
 }
-input[type=submit] {
+.update-button input[type=submit] {
     background: darkcyan;
     border-radius: 0;
     border: 2px solid #2e6f69;
@@ -72,8 +79,16 @@ input[type=submit] {
     height: 40px;
     color: black;
 }
+.update-button input[type=submit]:hover {
+    color: wite;
+    background-color: lightcyan;
+}
 .update-button {
     float: right;
     margin: 20px;
     margin-right: 40px;
+}
+footer {
+    background-color: grey;
+    clear: both;
 }

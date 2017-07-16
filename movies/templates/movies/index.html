@@ -19,13 +19,13 @@
         <div class="update-button">
             <form action="{% url 'movies:update' %}" method="post">
                 {% csrf_token %}
-                <input type="submit" value="Update" />
+                <input class="update-button" type="submit" value="Update dates" />
             </form>
         </div>
 
         <div class="content">
             <h2 id="known-dates">Known dates</h2>
-            <table>
+            <table class="known-dates-table">
                 <tr>
                     <th class="movie-col" width="40%">Movie</th>
                     <th class="date-col" width="30%">Second premiere date</th>
@@ -41,7 +41,7 @@
             </table>
 
             <h2 id="unknown-dates">Unknown dates</h2>
-            <table>
+            <table class="unknown-dates-table">
                 <tr>
                     <th class="movie-col" width="40%">Movie</th>
                     <th class="reason-col" width="30%">Reason</th>
