@@ -12,6 +12,30 @@ h1 {
     padding-left: 30px;
     color: lightgrey;
 }
+.header-title {
+    float: top;
+}
+.header-user {
+    float: right;
+}
+.header-user a {
+    text-decoration: none;
+    color: lightblue;
+}
+.header-user a:visited {
+    color: lightblue;
+}
+.login-box {
+    padding: 5px;
+    float: right;
+}
+.register-box {
+    padding: 5px;
+    float: right;
+}
+.hello-box {
+    padding: 5px;
+}
 nav {
     padding: 0;
     width: 220px;
