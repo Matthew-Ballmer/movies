@@ -11,13 +11,16 @@
                     <div class="hello-box">
                         Hello, <a href="">{{ user }}</a>!
                     </div>
-                {% else %}
                     <div class="login-box">
-                        <a href="">login</a>
+                        <a href="/logout">logout</a>
                     </div>
-                    <div class="register-box">
-                        <a href="">register</a>
+                {% else %}
+                    <div class="hello-box">
+                        Hello, guest!
                     </div>
+                <div class="login-box">
+                    <a href="/login">login</a>
+                </div>
                 {% endif %}
             </div>
             <div class="header-title">
