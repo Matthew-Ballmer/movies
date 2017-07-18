@@ -35,6 +35,7 @@ ALLOWED_HOSTS = CURRENT_ALLOWED_HOSTS
 # Application definition
 
 INSTALLED_APPS = [
+    'core.apps.CoreConfig',
     'movies.apps.MoviesConfig',
     'home.apps.HomeConfig',
     'django_extensions',
