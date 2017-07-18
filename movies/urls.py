@@ -7,6 +7,7 @@ app_name = 'movies'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^update/$', views.update, name='update'),
-    url(r'^login/$', auth_views.LoginView.as_view(), name='login'),
+    url(r'^login/$', auth_views.LoginView.as_view(template_name='auth/login.html'), name='login'),
     url(r'^logout/$', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
+    url(r'^signup/$', views.signup, name='signup'),
 ]

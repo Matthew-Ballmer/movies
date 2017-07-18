@@ -1,6 +1,8 @@
-from django.shortcuts import render
-from django.http import HttpResponseRedirect,HttpResponse
+from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import UserCreationForm
 
 from .models import Movie
 
@@ -32,3 +34,21 @@ def update(request):
         movie.save()
 
     return HttpResponseRedirect(reverse('movies:index'))
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(request, username=username, password=raw_password)
+            if user is None:
+                return render(request, 'auth/signup_fail.html', {})
+            else:
+                login(request, user)
+                return redirect('/')
+    else:
+        form = UserCreationForm()
+    return render(request, "auth/signup.html", {'form': form})
