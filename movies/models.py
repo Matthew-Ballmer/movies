@@ -25,13 +25,13 @@ class Movie(models.Model):
     year = models.DateField()  # TODO: field with only year editable
 
     # movie info:
-    update_date = models.DateTimeField(default=timezone.now())
+    update_date = models.DateTimeField(default=timezone.now)
     is_info_received = models.BooleanField(default=False)
     full_info_json = models.TextField(default='')
     dvd_release_date_status = models.CharField(default=NOT_RECEIVED,
                                                max_length=2,
                                                choices=DVD_DATE_STATUS_CHOICE)
-    dvd_release_date = models.DateField(default=timezone.now())
+    dvd_release_date = models.DateField(default=timezone.now)
     raw_dvd_release_date = models.CharField(default='',
                                             max_length=32)
 
