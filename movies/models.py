@@ -3,8 +3,8 @@ import urllib
 from urllib import parse, request
 import json
 import datetime
+import django.utils.timezone
 
-from django.utils import timezone
 from django.db import models
 
 
@@ -25,13 +25,13 @@ class Movie(models.Model):
     year = models.DateField()  # TODO: field with only year editable
 
     # movie info:
-    update_date = models.DateTimeField(default=timezone.now())
+    update_date = models.DateTimeField(default=django.utils.timezone.now)
     is_info_received = models.BooleanField(default=False)
     full_info_json = models.TextField(default='')
     dvd_release_date_status = models.CharField(default=NOT_RECEIVED,
                                                max_length=2,
                                                choices=DVD_DATE_STATUS_CHOICE)
-    dvd_release_date = models.DateField(default=timezone.now())
+    dvd_release_date = models.DateField(default=django.utils.timezone.now)
     raw_dvd_release_date = models.CharField(default='',
                                             max_length=32)
 
@@ -83,7 +83,7 @@ class Movie(models.Model):
             else:
                 self.dvd_release_date_status = self.NOT_RECEIVED
 
-        self.update_date = timezone.now()
+        self.update_date = django.utils.timezone.now()
 
     @classmethod
     def parse_omdb_date(cls, date_str):
