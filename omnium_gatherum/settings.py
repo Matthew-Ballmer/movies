@@ -110,6 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Authentication
 
 LOGIN_REDIRECT_URL = '/'
+AUTH_USER_MODEL = 'core.User'
 
 
 # Internationalization
