@@ -4,11 +4,81 @@ from urllib import parse, request
 import json
 import datetime
 
-from django.utils import timezone
+import django.utils.timezone
 from django.db import models
 
+import tmdbsimple as tmdb
 
-class Movie(models.Model):
+from .secret_settings import TMDB_API_KEY
+
+
+class TmdbMovie(models.Model):
+    # Necessary fields:
+    id = models.IntegerField(verbose_name="TMDB id", primary_key=True)
+
+    # Dates:
+    update_date = models.DateField(blank=True, null=True)
+    release_date = models.DateField(blank=True, null=True)
+    us_digital_release_date = models.DateField(blank=True, null=True)
+    us_physical_release_date = models.DateField(blank=True, null=True)
+
+    # Info:
+    title = models.CharField(max_length=1024, blank=True, null=True)
+    overview = models.TextField(blank=True, null=True)
+    runtime = models.IntegerField(blank=True, null=True)
+    imdb_id = models.CharField(verbose_name="iMDB id", max_length=32, blank=True, null=True)
+
+    # Constants:
+    class ReleaseType(object):
+        PREMIERE = 1
+        THEATRICAL_LIMITED = 2
+        THEATRICAL = 3
+        DIGITAL = 4
+        PHYSICAL = 5
+        TV = 6
+
+    COUNTRY_ISO = 'iso_3166_1'
+
+    def __str__(self):
+        return u"{title} id{id}".format(**{
+            'title': self.title,
+            'id': self.id
+        })
+
+    def update(self):
+        tmdb.API_KEY = TMDB_API_KEY
+        moviesApi = tmdb.Movies()
+        moviesApi.id = self.id
+        res = moviesApi.info(append_to_response="release_dates")
+
+        # Update dates:
+        self.update_date = django.utils.timezone.now()
+        self.release_date = moviesApi.release_date
+
+        for result in moviesApi.release_dates['results']:
+            if result[self.COUNTRY_ISO] == 'US':
+                release_dates = result['release_dates']
+                for release_date in release_dates:
+                    if release_date['type'] == self.ReleaseType.DIGITAL:
+                        self.us_digital_release_date = self._parse_date(release_date['release_date'])
+                    elif release_date['type'] == self.ReleaseType.PHYSICAL:
+                        self.us_physical_release_date = self._parse_date(release_date['release_date'])
+
+        # Update info:
+        self.title = moviesApi.title
+        self.overview = moviesApi.overview
+        self.runtime = moviesApi.runtime
+        self.imdb_id = moviesApi.imdb_id
+
+    def _parse_date(self, date_str):
+        """Parse TMDB date expected in YYYY-MM-DD format"""
+        year = int(date_str[0:4])
+        month = int(date_str[5:7])
+        day = int(date_str[8:10])
+        return django.utils.timezone.datetime(year, month, day)
+
+
+class OmdbMovie(models.Model):
     N_A = 'NA'
     NOT_RECEIVED = 'NF'
     NOT_PARSED = 'NP'
@@ -25,13 +95,13 @@ class Movie(models.Model):
     year = models.DateField()  # TODO: field with only year editable
 
     # movie info:
-    update_date = models.DateTimeField(default=timezone.now)
+    update_date = models.DateTimeField(default=django.utils.timezone.now)
     is_info_received = models.BooleanField(default=False)
     full_info_json = models.TextField(default='')
     dvd_release_date_status = models.CharField(default=NOT_RECEIVED,
                                                max_length=2,
                                                choices=DVD_DATE_STATUS_CHOICE)
-    dvd_release_date = models.DateField(default=timezone.now)
+    dvd_release_date = models.DateField(default=django.utils.timezone.now)
     raw_dvd_release_date = models.CharField(default='',
                                             max_length=32)
 
@@ -74,7 +144,7 @@ class Movie(models.Model):
                 if self.raw_dvd_release_date == NA_STR:
                     self.dvd_release_date_status = self.N_A
                 else:
-                    parsed_date = Movie.parse_omdb_date(self.raw_dvd_release_date)
+                    parsed_date = OmdbMovie.parse_omdb_date(self.raw_dvd_release_date)
                     if parsed_date is not None:
                         self.dvd_release_date_status = self.VALID_DATE
                         self.dvd_release_date = parsed_date
@@ -83,7 +153,7 @@ class Movie(models.Model):
             else:
                 self.dvd_release_date_status = self.NOT_RECEIVED
 
-        self.update_date = timezone.now()
+        self.update_date = django.utils.timezone.now()
 
     @classmethod
     def parse_omdb_date(cls, date_str):
