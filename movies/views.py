@@ -1,6 +1,3 @@
-import time
-import datetime
-
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -30,26 +27,5 @@ def index(request):
 
 
 def update(request):
-    movies = TmdbMovie.objects.all()
-
-    # Limits:
-    window_duration = datetime.timedelta(seconds=10)
-    request_limit = 40
-
-    # Current counters:
-    window_start = datetime.datetime.now()
-    request_count = 0
-
-    for movie in movies:
-        now = datetime.datetime.now()
-        request_count += 1
-        if (now - window_start <= window_duration) and (request_count > request_limit):
-            # Enough requests, wait for the new window:
-            sleep_time = window_start + window_duration - now
-            time.sleep(sleep_time.seconds)
-            # Reset window:
-            window_start = datetime.datetime.now()
-            request_count = 0
-        movie.update()
-        movie.save()
+    TmdbMovie.objects.update_dvd_dates()
     return HttpResponseRedirect(reverse('movies:index'))

@@ -1,18 +1,50 @@
-from datetime import datetime
+import time
+import datetime
 import urllib
 from urllib import parse, request
 import json
-import datetime
 
 import django.utils.timezone
 from django.db import models
+from django.db.models import Q
 
 import tmdbsimple as tmdb
 
 from .secret_settings import TMDB_API_KEY
 
 
+class TmdbManager(models.Manager):
+    # TMDB API limits:
+    API_WINDOW_DURATION = datetime.timedelta(seconds=10)
+    API_REQUESTS_LIMIT = 40
+
+    def update_dvd_dates(self):
+        # Current counters:
+        window_start = datetime.datetime.now()
+        request_count = 0
+
+        movies = self.filter(Q(us_physical_release_date__isnull=True) |
+                             Q(us_digital_release_date__isnull=True))
+
+        for movie in movies:
+            now = datetime.datetime.now()
+            request_count += 1
+            if ( now - window_start <= self.API_WINDOW_DURATION ) and \
+               ( request_count > self.API_REQUESTS_LIMIT ):
+                # Limit exceeded, enough requests, wait for the new window:
+                sleep_time = window_start + self.API_WINDOW_DURATION - now
+                time.sleep(sleep_time.seconds)
+                # Reset window:
+                window_start = datetime.datetime.now()
+                request_count = 0
+            movie.update_info()
+            movie.save()
+
+
 class TmdbMovie(models.Model):
+    # Custom manager:
+    objects = TmdbManager()
+
     # Necessary fields:
     id = models.IntegerField(verbose_name="TMDB id", primary_key=True)
 
@@ -45,7 +77,7 @@ class TmdbMovie(models.Model):
             'id': self.id
         })
 
-    def update(self):
+    def update_info(self):
         tmdb.API_KEY = TMDB_API_KEY
         moviesApi = tmdb.Movies()
         moviesApi.id = self.id
