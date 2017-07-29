@@ -6,50 +6,19 @@ import json
 
 import django.utils.timezone
 from django.db import models
-from django.db.models import Q
 
 import tmdbsimple as tmdb
+from ratelimit import rate_limited
 
 from .secret_settings import TMDB_API_KEY
 
 
-class TmdbManager(models.Manager):
-    # TMDB API limits:
-    API_WINDOW_DURATION = datetime.timedelta(seconds=10)
-    API_REQUESTS_LIMIT = 40
-
-    def update_dvd_dates(self):
-        # Current counters:
-        window_start = datetime.datetime.now()
-        request_count = 0
-
-        movies = self.filter(Q(us_physical_release_date__isnull=True) |
-                             Q(us_digital_release_date__isnull=True))
-
-        for movie in movies:
-            now = datetime.datetime.now()
-            request_count += 1
-            if ( now - window_start <= self.API_WINDOW_DURATION ) and \
-               ( request_count > self.API_REQUESTS_LIMIT ):
-                # Limit exceeded, enough requests, wait for the new window:
-                sleep_time = window_start + self.API_WINDOW_DURATION - now
-                time.sleep(sleep_time.seconds)
-                # Reset window:
-                window_start = datetime.datetime.now()
-                request_count = 0
-            movie.update_info()
-            movie.save()
-
-
 class TmdbMovie(models.Model):
-    # Custom manager:
-    objects = TmdbManager()
-
     # Necessary fields:
     id = models.IntegerField(verbose_name="TMDB id", primary_key=True)
 
     # Dates:
-    update_date = models.DateField(blank=True, null=True)
+    update_date = models.DateTimeField(blank=True, null=True)
     release_date = models.DateField(blank=True, null=True)
     us_digital_release_date = models.DateField(blank=True, null=True)
     us_physical_release_date = models.DateField(blank=True, null=True)
@@ -71,12 +40,16 @@ class TmdbMovie(models.Model):
 
     COUNTRY_ISO = 'iso_3166_1'
 
+    API_WINDOW_DURATION = 10.0
+    API_REQUESTS_LIMIT = 40
+
     def __str__(self):
         return u"{title} id{id}".format(**{
             'title': self.title,
             'id': self.id
         })
 
+    @rate_limited(API_REQUESTS_LIMIT, API_WINDOW_DURATION)
     def update_info(self):
         tmdb.API_KEY = TMDB_API_KEY
         moviesApi = tmdb.Movies()
@@ -191,8 +164,8 @@ class OmdbMovie(models.Model):
     def parse_omdb_date(cls, date_str):
         """
         Method parses string date and returns a datetime object or None
-        
-        :param date_str: date string in format: '21 Mar 2017' 
+
+        :param date_str: date string in format: '21 Mar 2017'
         :return: datetime object or None
         """
 

@@ -27,5 +27,10 @@ def index(request):
 
 
 def update(request):
-    TmdbMovie.objects.update_dvd_dates()
+    movies = TmdbMovie.objects.filter(us_physical_release_date__isnull=True)
+    for movie in movies:
+        movie.update_info()
+        movie.save()
+        # print("updated movie: {}".format(movie.title))
+
     return HttpResponseRedirect(reverse('movies:index'))
