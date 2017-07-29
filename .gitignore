@@ -1,6 +1,7 @@
 .idea/
 omnium_gatherum/secret_settings.py
+movies/secret_settings.py
 db.sqlite3
 *__pycache__*
-static/
+/static/
 *.pyc

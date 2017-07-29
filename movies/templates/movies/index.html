@@ -1,82 +1,51 @@
-{% load staticfiles %}
-<html>
-    <head>
-        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-        <link rel="stylesheet" href="{% static 'css/movies.css' %}">
-    </head>
-    <body>
-        <div class="page-header">
-            <div class="header-user">
-                {% if user.is_authenticated %}
-                    <div class="hello-box">
-                        Hello, <a href="">{{ user }}</a>!
-                    </div>
-                    <div class="login-box">
-                        <a href="/logout">logout</a>
-                    </div>
-                {% else %}
-                    <div class="hello-box">
-                        Hello, guest!
-                    </div>
-                    <div class="login-box">
-                        <a href="/signup">sign up</a>
-                    </div>
-                    <div class="login-box">
-                        <a href="/login">log in</a>
-                    </div>
-                {% endif %}
-            </div>
-            <div class="header-title">
-                <h1>The second premieres</h1>
-            </div>
-        </div>
+{% extends "movies/base.html" %}
 
-        <nav>
-            <ul>
-                <li><a href="#known-dates">Known dates</a></li>
-                <li><a href="#unknown-dates">Unknown dates</a></li>
-            </ul>
-        </nav>
+{% block nav %}
+    <ul>
+        <li><a href="#known-dates">Known dates</a></li>
+        <li><a href="#unknown-dates">Unknown dates</a></li>
+    </ul>
+{% endblock nav %}
 
-        <div class="update-button">
-            <form action="{% url 'movies:update' %}" method="post">
-                {% csrf_token %}
-                <input class="update-button" type="submit" value="Update dates" />
-            </form>
-        </div>
+{% block right-sidebar %}
+    <div class="update-button">
+        <form action="{% url 'movies:update' %}" method="post">
+            {% csrf_token %}
+            <input class="update-button" type="submit" value="Update dates" />
+        </form>
+    </div>
+{% endblock right-sidebar %}
 
-        <div class="content">
-            <h2 id="known-dates">Known dates</h2>
-            <table class="known-dates-table">
-                <tr>
-                    <th class="movie-col" width="40%">Movie</th>
-                    <th class="date-col" width="30%">Second premiere date</th>
-                    <th class="updated-col">Updated</th>
-                </tr>
-                {% for movie in dvd_releases %}
-                <tr>
-                    <td class="movie-col">{{ movie.title }}</td>
-                    <td class="date-col">{{ movie.dvd_release_date }}</td>
-                    <td class="updated-col">{{ movie.update_date }}</td>
-                </tr>
-                {% endfor %}
-            </table>
+{% block content %}
+    <h2 id="known-dates">Known dates</h2>
+    <table class="known-dates-table">
+        <tr>
+            <th class="movie-col" width="40%">Movie</th>
+            <th class="date-col" width="30%">Second premiere date</th>
+            <th class="updated-col">Updated</th>
+        </tr>
+        {% for movie in dvd_releases %}
+        <tr>
+            <td class="movie-col">{{ movie.title }}</td>
+            <td class="date-col">{{ movie.us_physical_release_date }}</td>
+            <td class="updated-col">{{ movie.update_time }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 
-            <h2 id="unknown-dates">Unknown dates</h2>
-            <table class="unknown-dates-table">
-                <tr>
-                    <th class="movie-col" width="40%">Movie</th>
-                    <th class="reason-col" width="30%">Reason</th>
-                    <th class="updated-col">Updated</th>
-                </tr>
-                {% for movie in unknown_dvd_releases %}
-                <tr>
-                    <td class="movie-col">{{ movie.title }}</td>
-                    <td class="reason-col">{{ movie.dvd_release_date_status }}</td>
-                    <td class="updated-col">{{ movie.update_date }}</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-    </body>
-</html>
+    <h2 id="unknown-dates">Unknown dates</h2>
+    <table class="unknown-dates-table">
+        <tr>
+            <th class="movie-col" width="40%">Movie</th>
+            <th class="release-col" width="30%">Release date</th>
+            <th class="updated-col">Updated</th>
+        </tr>
+        {% for movie in unknown_dvd_releases %}
+        <tr>
+            <td class="movie-col">{{ movie.title }}</td>
+            <td class="release-col">{{ movie.release_date }}</td>
+            <td class="updated-col">{{ movie.update_time }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

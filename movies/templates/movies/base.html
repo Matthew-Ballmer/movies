@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/movies.css' %}">
+    <title>{% block title %}Movies{% endblock title %}</title>
+</head>
+<body>
+    <div class="page-header">
+        {% block header %}
+        <div class="header-user">
+            {% if user.is_authenticated %}
+                <div class="hello-box">
+                    Hello, <a href="">{{ user }}</a>!
+                </div>
+                <div class="login-box">
+                    <a href="/logout">logout</a>
+                </div>
+            {% else %}
+                <div class="hello-box">
+                    Hello, guest!
+                </div>
+                <div class="login-box">
+                    <a href="/signup">sign up</a>
+                </div>
+                <div class="login-box">
+                    <a href="/login">log in</a>
+                </div>
+            {% endif %}
+        </div>
+        <div class="header-title">
+            <h1>The second premieres</h1>
+        </div>
+        {% endblock header %}
+    </div>
+
+    <nav>
+        {% block nav %}
+        {% endblock nav %}
+    </nav>
+
+    <div class="right-sidebar">
+        {% block right-sidebar %}
+        {% endblock right-sidebar %}
+    </div>
+
+    <div class="content">
+        {% block content %}
+        {% endblock content %}
+    </div>
+</body>
+</html>

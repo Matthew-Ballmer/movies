@@ -2,20 +2,20 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from .models import Movie
+from .models import TmdbMovie
 
 
 def index(request):
-    dvd_releases = Movie.objects.filter(
-        dvd_release_date_status=Movie.VALID_DATE
+    dvd_releases = TmdbMovie.objects.filter(
+        us_physical_release_date__isnull=False
     ).order_by(
-        'dvd_release_date'
+        'us_physical_release_date'
     )
 
-    unknown_dvd_releases = Movie.objects.exclude(
-        dvd_release_date_status=Movie.VALID_DATE
+    unknown_dvd_releases = TmdbMovie.objects.exclude(
+        us_physical_release_date__isnull=False
     ).order_by(
-        'dvd_release_date_status'
+        'release_date'
     )
 
     context = {
@@ -26,9 +26,10 @@ def index(request):
 
 
 def update(request):
-    movies = Movie.objects.all()
+    movies = TmdbMovie.objects.filter(us_physical_release_date__isnull=True)
     for movie in movies:
-        movie.download_info()
+        movie.update_info()
         movie.save()
+        # print("updated movie: {}".format(movie.title))
 
     return HttpResponseRedirect(reverse('movies:index'))
