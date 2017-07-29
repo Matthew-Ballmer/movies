@@ -1,16 +1,10 @@
-import time
-import datetime
-import urllib
-from urllib import parse, request
-import json
-
 import django.utils.timezone
 from django.db import models
 
+from django.conf import settings
+
 import tmdbsimple as tmdb
 from ratelimit import rate_limited
-
-from .secret_settings import TMDB_API_KEY
 
 
 class TmdbMovie(models.Model):
@@ -51,7 +45,7 @@ class TmdbMovie(models.Model):
 
     @rate_limited(API_REQUESTS_LIMIT, API_WINDOW_DURATION)
     def update_info(self):
-        tmdb.API_KEY = TMDB_API_KEY
+        tmdb.API_KEY = settings.TMDB_API_KEY
         moviesApi = tmdb.Movies()
         moviesApi.id = self.id
         res = moviesApi.info(append_to_response="release_dates")
