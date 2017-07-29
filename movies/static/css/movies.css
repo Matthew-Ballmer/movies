@@ -55,7 +55,7 @@ nav a {
 .content {
     margin-left: 250px;
 }
-table {
+.content table {
     border-collapse: collapse;
     width: 80%;
     margin: 5px;
@@ -67,13 +67,13 @@ table {
     background-color: darkred;
     color: white;
 }
-th {
+.content th {
     border-bottom: 1px solid black;
     padding: 10px;
     background-color: #236161;
     color: lightgray;
 }
-td {
+.content td {
     border-bottom: 1px solid lightgray;
     border-right: 1px solid lightgray;
     padding: 5px;
@@ -108,7 +108,23 @@ td {
     margin: 20px;
     margin-right: 40px;
 }
+
 footer {
-    background-color: grey;
-    clear: both;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
+  background-color: #efefef;
+  text-align: center;
+  color: darkgrey;
+  font-size: 12px;
+}
+
+footer img {
+    height: 30px;
+}
+
+footer td {
+    padding: 3px;
 }

@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
+from django.conf import settings
+
 from .models import TmdbMovie
 
 
@@ -20,7 +22,8 @@ def index(request):
 
     context = {
         'dvd_releases': dvd_releases,
-        'unknown_dvd_releases': unknown_dvd_releases
+        'unknown_dvd_releases': unknown_dvd_releases,
+        'MEDIA_URL': settings.MEDIA_URL,
     }
     return render(request, 'movies/index.html', context)
 

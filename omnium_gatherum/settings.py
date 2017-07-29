@@ -15,7 +15,6 @@ import os
 from .secret_settings import SECRET_KEY as VERY_SECRET_KEY
 from .secret_settings import DEBUG as CURRENT_DEBUG
 from .secret_settings import ALLOWED_HOSTS as CURRENT_ALLOWED_HOSTS
-from .secret_settings import STATIC_ROOT as CURRENT_STATIC_ROOT
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -131,4 +130,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = CURRENT_STATIC_ROOT
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
