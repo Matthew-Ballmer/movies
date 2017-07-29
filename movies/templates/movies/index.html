@@ -27,8 +27,8 @@
         {% for movie in dvd_releases %}
         <tr>
             <td class="movie-col">{{ movie.title }}</td>
-            <td class="date-col">{{ movie.dvd_release_date }}</td>
-            <td class="updated-col">{{ movie.update_date }}</td>
+            <td class="date-col">{{ movie.us_physical_release_date }}</td>
+            <td class="updated-col">{{ movie.update_time }}</td>
         </tr>
         {% endfor %}
     </table>
@@ -37,14 +37,14 @@
     <table class="unknown-dates-table">
         <tr>
             <th class="movie-col" width="40%">Movie</th>
-            <th class="reason-col" width="30%">Reason</th>
+            <th class="release-col" width="30%">Release date</th>
             <th class="updated-col">Updated</th>
         </tr>
         {% for movie in unknown_dvd_releases %}
         <tr>
             <td class="movie-col">{{ movie.title }}</td>
-            <td class="reason-col">{{ movie.dvd_release_date_status }}</td>
-            <td class="updated-col">{{ movie.update_date }}</td>
+            <td class="release-col">{{ movie.release_date }}</td>
+            <td class="updated-col">{{ movie.update_time }}</td>
         </tr>
         {% endfor %}
     </table>
