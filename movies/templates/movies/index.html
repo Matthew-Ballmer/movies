@@ -7,15 +7,6 @@
     </ul>
 {% endblock nav %}
 
-{% block right-sidebar %}
-    <div class="update-button">
-        <form action="{% url 'movies:update' %}" method="post">
-            {% csrf_token %}
-            <input class="update-button" type="submit" value="Update dates" />
-        </form>
-    </div>
-{% endblock right-sidebar %}
-
 {% block content %}
     <h2 id="known-dates">Known dates</h2>
     <table class="known-dates-table">
@@ -48,4 +39,25 @@
         </tr>
         {% endfor %}
     </table>
-{% endblock %}
+{% endblock content%}
+
+{% block update-buttons %}
+    <table>
+        <tr>
+            <td>
+                <form action="{% url 'movies:update' %}" method="post">
+                    {% csrf_token %}
+                    <input class="update-button" type="submit" value="Update dates" />
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <form action="{% url 'movies:add-movies' %}" method="post">
+                    {% csrf_token %}
+                    <input class="update-button" type="submit" value="Add movies" />
+                </form>
+            </td>
+        </tr>
+    </table>
+{% endblock update-buttons %}

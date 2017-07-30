@@ -75,3 +75,29 @@ class TmdbMovie(models.Model):
         month = int(date_str[5:7])
         day = int(date_str[8:10])
         return django.utils.timezone.datetime(year, month, day)
+
+    @classmethod
+    def add_movies(cls):
+        tmdb.API_KEY = settings.TMDB_API_KEY
+        moviesApi = tmdb.Movies()
+        moviesApi.now_playing()
+
+        total_pages = moviesApi.total_pages
+
+        # Parse first page:
+        for movie in moviesApi.results:
+            TmdbMovie.create_movie_if_new(movie['id'], movie['title'])
+
+        # Parse the rest of pages:
+        for page in range(2, total_pages + 1, 1):
+            moviesApi.now_playing(page=page)
+
+            for movie in moviesApi.results:
+                TmdbMovie.create_movie_if_new(movie['id'], movie['title'])
+
+    @classmethod
+    def create_movie_if_new(cls, id, title):
+        """If movie with such id does not exist, then create one"""
+        if 0x00 == TmdbMovie.objects.filter(id=id).count():
+            newMovie = TmdbMovie(id=id, title=title)
+            newMovie.save()

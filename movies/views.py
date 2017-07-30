@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.admin.views.decorators import staff_member_required
 
 from django.conf import settings
 
@@ -28,6 +29,7 @@ def index(request):
     return render(request, 'movies/index.html', context)
 
 
+@staff_member_required
 def update(request):
     movies = TmdbMovie.objects.filter(us_physical_release_date__isnull=True)
     for movie in movies:
@@ -35,4 +37,10 @@ def update(request):
         movie.save()
         # print("updated movie: {}".format(movie.title))
 
+    return HttpResponseRedirect(reverse('movies:index'))
+
+
+@staff_member_required
+def add_movies(request):
+    TmdbMovie.add_movies()
     return HttpResponseRedirect(reverse('movies:index'))

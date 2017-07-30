@@ -34,7 +34,7 @@ h1 {
 }
 nav {
     padding: 0;
-    width: 220px;
+    width: 200px;
     float: left;
     background-color: #323546;
 }
@@ -53,7 +53,7 @@ nav a {
     color: lightgrey;
 }
 .content {
-    margin-left: 250px;
+    margin-left: 220px;
 }
 .content table {
     border-collapse: collapse;
@@ -90,31 +90,30 @@ nav a {
 .release-col {
     text-align: left;
 }
-.update-button input[type=submit] {
+
+.update-buttons {
+    float: right;
+}
+
+.update-buttons input[type=submit] {
     background: darkcyan;
     border-radius: 0;
     border: 2px solid #2e6f69;
     padding: 5px;
+    margin: 10px;
     width: 100px;
     height: 40px;
     color: black;
 }
-.update-button input[type=submit]:hover {
+
+.update-buttons input[type=submit]:hover {
     color: wite;
     background-color: lightcyan;
 }
-.update-button {
-    float: right;
-    margin: 20px;
-    margin-right: 40px;
-}
 
 footer {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
   padding: 10px;
+  margin-top: 50px;
   background-color: #efefef;
   text-align: center;
   color: darkgrey;
