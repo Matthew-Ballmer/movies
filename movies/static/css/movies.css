@@ -2,9 +2,6 @@ body {
     font-family: 'Lato', sans-serif;
     background-color: #f7f7f7;
 }
-h1 {
-
-}
 .page-header {
     height: 70px;
     background-color: #021921;
@@ -12,8 +9,9 @@ h1 {
     padding-left: 30px;
     color: lightgrey;
 }
-.header-title {
-    float: top;
+.header-title a {
+    text-decoration: none;
+    color: lightgrey;
 }
 .header-user {
     float: right;
