@@ -1,6 +1,7 @@
-.idea/
-omnium_gatherum/secret_settings.py
+/.idea/
+/omnium_gatherum/secret_settings.py
 db.sqlite3
-*__pycache__*
+__pycache__/
 /static/
+/media/
 *.pyc

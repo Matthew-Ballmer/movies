@@ -24,7 +24,6 @@ def index(request):
     context = {
         'dvd_releases': dvd_releases,
         'unknown_dvd_releases': unknown_dvd_releases,
-        'MEDIA_URL': settings.MEDIA_URL,
     }
     return render(request, 'movies/index.html', context)
 
