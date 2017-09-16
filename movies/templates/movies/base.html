@@ -27,21 +27,30 @@
             {% endblock content %}
         </div>
 
-        <footer>
+        <div class="footer">
             {% block footer %}
-            <table align="center">
-                <tr>
-                    <td>
-                        <a href="https://www.themoviedb.org">
-                            <img src="/static/images/408x161-tmdb-rectangle-green.png" alt="TMDB logo">
-                        </a>
-                    </td>
-                    <td>This product uses the TMDb API but is not endorsed or certified by TMDb.</td>
-                </tr>
-            </table>
-            <!--TODO: Icon made by [author link] from www.flaticon.com -->
+            <div class="footer__credits">
+                <div class="footer__credits-icon-container">
+                    <a href="https://www.themoviedb.org">
+                        <img class="footer__credits-icon"
+                             src="/static/images/408x161-tmdb-rectangle-green.png"
+                             alt="TMDB logo">
+                    </a>
+                </div>
+                <div class="footer__credits-text">
+                    This product uses the TMDb API but is not endorsed or certified by TMDb.
+                </div>
+            </div>
+            <div class="footer__credits">
+                <div class="footer__credits-text">
+                    Icons made by
+                    <a class="footer__link" href="https://www.flaticon.com/authors/freepik">freepik</a>,
+                    <a class="footer__link" href="https://www.flaticon.com/authors/smashicons">smashicons</a>
+                    from <a class="footer__link" href="https://www.flaticon.com">www.flaticon.com</a>
+                </div>
+            </div>
             {% endblock %}
-        </footer>
+        </div>
 
     </div>
 </body>
