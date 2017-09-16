@@ -7,7 +7,6 @@ body {
     background-color: #f7f7f7;
 }
 .main-panel {
-	position: fixed;
 	width: 100%;
 	top: 0;
 	left: 0;
@@ -80,7 +79,6 @@ body {
 }
 
 .movies-nav {
-	position: fixed;
     float: left;
     display: flex;
     flex-direction: column;
@@ -105,7 +103,6 @@ body {
 .container {
     min-height: 100%;
     position: relative;
-    margin-top: 50px;
 }
 
 .content {
