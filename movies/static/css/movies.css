@@ -40,6 +40,9 @@ body {
 	text-decoration: none;
 	color: #242830;
 }
+.nav__link:hover {
+	color: #a9c0e8;
+}
 .nav__link_active {
 	color: #475777;
 }
@@ -76,36 +79,41 @@ body {
 	background-color: #d8d8d8;
 }
 
+.movies-nav {
+	position: fixed;
+    float: left;
+    display: flex;
+    flex-direction: column;
+}
+.movies-nav__link {
+	display: block;
+	height: 30px;
+	padding-top: 20px;
+	padding-left: 30px;
+	text-decoration: none;
+	color: #242830;
+	text-align: left;
+	font-weight: bold;
+}
+.movies-nav__link:hover {
+	color: #a9c0e8;
+}
+.movies-nav__link_active {
+	color: #196afc;
+}
+
 .container {
     min-height: 100%;
     position: relative;
-    margin-top: 40px;
-}
-.content {
-    padding: 10px;
-    margin-left: 220px;
-    padding-bottom: 200px;
+    margin-top: 50px;
 }
 
-nav {
-    padding: 0;
-    width: 200px;
-    float: left;
-    background-color: #323546;
-}
-nav ul {
-    padding: 0;
-}
-nav li {
-    list-style-position: inside;
-    padding: 10px;
-    padding-left: 30px;
-    margin: 0;
-    display: inline-block;
-}
-nav a {
-    text-decoration: none;
-    color: lightgrey;
+.content {
+    margin-left: 270px;
+    padding-left: 10px;
+    padding-right: 10px;
+    /*padding-top: 60px;*/
+    padding-bottom: 200px;
 }
 .content table {
     border-collapse: collapse;

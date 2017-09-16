@@ -4,12 +4,9 @@
 {% include "movies/includes/main_panel.html" with active_tab='database' %}
 {% endblock header %}
 
-{% block nav %}
-    <ul>
-        <li><a href="#known-dates">Known dates</a></li>
-        <li><a href="#unknown-dates">Unknown dates</a></li>
-    </ul>
-{% endblock nav %}
+{% block movies-nav %}
+{% include "movies/includes/movies_nav.html" with active_movies_nav="all" %}
+{% endblock movies-nav %}
 
 {% block content %}
     <h2 id="known-dates">Known dates</h2>
