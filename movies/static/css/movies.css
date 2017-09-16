@@ -6,16 +6,80 @@ body {
     font-family: 'Lato', sans-serif;
     background-color: #f7f7f7;
 }
+.main-panel {
+	position: fixed;
+	width: 100%;
+	top: 0;
+	left: 0;
+	height: 40px;
+	background-color: #eee;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-right: 10px;
+	padding-left: 10px;
+	border-top: 3px solid #475777;
+	border-bottom: 1px solid #ddd;
+}
+
+.nav {
+	display: flex;
+	font-weight: bold;
+	align-items: center;
+}
+.nav__item {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+.nav__item_active {
+	border-bottom: 2px solid #475777;
+}
+.nav__link {
+	text-decoration: none;
+	color: #242830;
+}
+.nav__link_active {
+	color: #475777;
+}
+.nav__logo-container {
+	display: flex;
+}
+.nav__logo {
+	width: 20px;
+	height: 20px;
+	margin-right: 10px;
+}
+
+.toolbox {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.toolbox__item {
+	display: flex;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+.toolbox__icon {
+	width: 20px;
+	height: 20px;
+}
+.toolbox__divider {
+	width: 2px;
+	height: 20px;
+	margin-left: 10px;
+	margin-right: 10px;
+	background-color: #d8d8d8;
+}
+
 .container {
     min-height: 100%;
     position: relative;
-}
-.page-header {
-    height: 70px;
-    background-color: #021921;
-    padding: 10px;
-    padding-left: 30px;
-    color: lightgrey;
+    margin-top: 40px;
 }
 .content {
     padding: 10px;
@@ -33,27 +97,7 @@ footer {
     color: darkgrey;
     font-size: 12px;
 }
-.header-title a {
-    text-decoration: none;
-    color: lightgrey;
-}
-.header-user {
-    float: right;
-}
-.header-user a {
-    text-decoration: none;
-    color: lightblue;
-}
-.header-user a:visited {
-    color: lightblue;
-}
-.login-box {
-    padding: 5px;
-    float: right;
-}
-.hello-box {
-    padding: 5px;
-}
+
 nav {
     padding: 0;
     width: 200px;

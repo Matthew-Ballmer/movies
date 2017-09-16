@@ -9,34 +9,8 @@
 </head>
 <body>
     <div class="container">
-
-        <div class="page-header">
-            {% block header %}
-            <div class="header-user">
-                {% if user.is_authenticated %}
-                    <div class="hello-box">
-                        Hello, <a href="">{{ user }}</a>!
-                    </div>
-                    <div class="login-box">
-                        <a href="/logout">logout</a>
-                    </div>
-                {% else %}
-                    <div class="hello-box">
-                        Hello, guest!
-                    </div>
-                    <div class="login-box">
-                        <a href="/signup">sign up</a>
-                    </div>
-                    <div class="login-box">
-                        <a href="/login">log in</a>
-                    </div>
-                {% endif %}
-            </div>
-            <div class="header-title">
-                <a href="/"><h1>The second premieres</h1></a>
-            </div>
-            {% endblock header %}
-        </div>
+        {% block header %}
+        {% endblock header %}
 
         <nav>
             {% block nav %}
@@ -65,6 +39,7 @@
                     <td>This product uses the TMDb API but is not endorsed or certified by TMDb.</td>
                 </tr>
             </table>
+            <!--TODO: Icon made by [author link] from www.flaticon.com -->
             {% endblock %}
         </footer>
 

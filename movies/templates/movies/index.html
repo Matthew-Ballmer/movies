@@ -1,5 +1,9 @@
 {% extends "movies/base.html" %}
 
+{% block header %}
+{% include "movies/includes/main_panel.html" with active_tab='database' %}
+{% endblock header %}
+
 {% block nav %}
     <ul>
         <li><a href="#known-dates">Known dates</a></li>

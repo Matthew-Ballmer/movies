@@ -1,0 +1,44 @@
+<div class="main-panel">
+    <div class="nav">
+        <div class="nav__item">
+            <div class="nav__logo-container">
+                <img class="nav__logo" src="/static/images/dvd-disc.png">
+                <a class="nav__link" href="/">The second premieres</a>
+            </div>
+        </div>
+        <div class="nav__item {% if active_tab == 'database' %}nav__item_active{% endif %}">
+            <a class="nav__link {% if active_tab == 'database' %}nav__link_active{% endif %}" href="#">Database</a>
+        </div>
+        <div class="nav__item {% if active_tab == 'watchlist' %}nav__item_active{% endif %}">
+            <a class="nav__link {% if active_tab == 'watchlist' %}nav__link_active{% endif %}" href="#">Watchlist</a>
+        </div>
+    </div>
+
+    <div class="toolbox">
+        <div class="toolbox__item">
+            <a href="#"><img class="toolbox__icon" src="/static/images/search.png"></a>
+        </div>
+        {% if user.is_authenticated %}
+            <div class="toolbox__item">
+                <a href="#"><img class="toolbox__icon" src="/static/images/add.png"></a>
+            </div>
+        {% endif %}
+        <div class="toolbox__divider">
+        </div>
+        {% if user.is_authenticated %}
+            <div class="toolbox__item">
+                {{ user }}
+            </div>
+            <div class="toolbox__item">
+                <a href="/logout"><img class="toolbox__icon" src="/static/images/logout.png"></a>
+            </div>
+        {% else %}
+            <div class="toolbox__item">
+                <a href="/login"><img class="toolbox__icon" src="/static/images/login.png"></a>
+            </div>
+            <div class="toolbox__item">
+                <a href="/signup"><img class="toolbox__icon" src="/static/images/new-user.png"></a>
+            </div>
+        {% endif %}
+    </div>
+</div>
