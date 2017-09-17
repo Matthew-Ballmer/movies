@@ -9,21 +9,10 @@ from .models import TmdbMovie
 
 
 def index(request):
-    dvd_releases = TmdbMovie.objects.filter(
-        us_physical_release_date__isnull=False
-    ).order_by(
-        'us_physical_release_date'
-    )
-
-    unknown_dvd_releases = TmdbMovie.objects.exclude(
-        us_physical_release_date__isnull=False
-    ).order_by(
-        'release_date'
-    )
+    dvd_releases = TmdbMovie.objects.all().order_by('-us_physical_release_date')
 
     context = {
         'dvd_releases': dvd_releases,
-        'unknown_dvd_releases': unknown_dvd_releases,
     }
     return render(request, 'movies/index.html', context)
 

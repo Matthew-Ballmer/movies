@@ -9,56 +9,41 @@
 {% endblock movies-nav %}
 
 {% block content %}
-    <h2 id="known-dates">Known dates</h2>
-    <table class="known-dates-table">
-        <tr>
-            <th class="movie-col" width="40%">Movie</th>
-            <th class="date-col" width="30%">Second premiere date</th>
-            <th class="updated-col">Updated</th>
-        </tr>
+
+    <div class="movies-grid">
         {% for movie in dvd_releases %}
-        <tr>
-            <td class="movie-col">{{ movie.title }}</td>
-            <td class="date-col">{{ movie.us_physical_release_date }}</td>
-            <td class="updated-col">{{ movie.update_time }}</td>
-        </tr>
+            <a class="movie-card" href="#">
+                <div class="movie-card__container">
+                    <img class="movie-card__poster">
+                    <div class="movie-card__description">
+                        <div class="movie-card__title">
+                            {% if movie.title|length > 20 %}
+                                {{ movie.title|slice:":20" }} ...
+                            {% else %}
+                                {{ movie.title }}
+                            {% endif %}
+                        </div>
+                        <div class="movie-card__date">
+                            Release: <i>{{ movie.release_date }}</i>
+                        </div>
+                        <div class="movie-card__date">
+                            DVD release: <b><i>{{ movie.us_physical_release_date }}</i></b>
+                        </div>
+                        <div class="movie-card__excerpt">
+                            {% if movie.overview|length > 100 %}
+                                {{ movie.overview|slice:":100" }} ...
+                            {% else %}
+                                {{ movie.overview }}
+                            {% endif %}
+                        </div>
+                        <div class="movie-card__buttons">
+                            <div>
+                                <a href="#"><img class="movie-card__button" src="/static/images/add-plus-button.png"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
         {% endfor %}
-    </table>
-
-    <h2 id="unknown-dates">Unknown dates</h2>
-    <table class="unknown-dates-table">
-        <tr>
-            <th class="movie-col" width="40%">Movie</th>
-            <th class="release-col" width="30%">Release date</th>
-            <th class="updated-col">Updated</th>
-        </tr>
-        {% for movie in unknown_dvd_releases %}
-        <tr>
-            <td class="movie-col">{{ movie.title }}</td>
-            <td class="release-col">{{ movie.release_date }}</td>
-            <td class="updated-col">{{ movie.update_time }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    </div>
 {% endblock content%}
-
-{% block update-buttons %}
-    <table>
-        <tr>
-            <td>
-                <form action="{% url 'movies:update' %}" method="post">
-                    {% csrf_token %}
-                    <input class="update-button" type="submit" value="Update dates" />
-                </form>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <form action="{% url 'movies:add-movies' %}" method="post">
-                    {% csrf_token %}
-                    <input class="update-button" type="submit" value="Add movies" />
-                </form>
-            </td>
-        </tr>
-    </table>
-{% endblock update-buttons %}

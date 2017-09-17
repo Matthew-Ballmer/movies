@@ -106,7 +106,7 @@ body {
 }
 
 .content {
-    margin-left: 270px;
+    margin-left: 130px;
     padding-left: 10px;
     padding-right: 10px;
     /*padding-top: 60px;*/
@@ -168,6 +168,57 @@ body {
     background-color: lightcyan;
 }
 
+.movies-grid {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.movie-card {
+	text-decoration: none;
+}
+.movie-card:visited {
+	color: #242830;
+}
+.movie-card__container {
+	background-color: white;
+	border: 1px solid #eaebed;
+	height: 190px;
+	width: 350px;
+	margin: 20px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.movie-card__poster {
+	width: 130px;
+}
+.movie-card__description {
+	width: 190px;
+	/*height: 190px;*/
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+}
+.movie-card__title {
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+.movie-card__date {
+	margin-bottom: 10px;
+	font-size: 14px;
+}
+.movie-card__excerpt {
+	font-size: 14px;
+}
+.movie-card__buttons {
+	display: flex;
+	justify-content: flex-end;
+}
+.movie-card__button {
+	width: 15px;
+	height: 15px;
+}
+
 .footer {
     position: absolute;
     bottom: 0;
@@ -200,5 +251,5 @@ body {
 	color: #242830;
 }
 .footer__link:visited {
-	color: #a2a6ad;	
+	color: #a2a6ad;
 }
