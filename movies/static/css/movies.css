@@ -144,10 +144,10 @@ body {
 .movie-card__description {
 	color: #242830;
 	width: 190px;
-	/*height: 190px;*/
 	padding: 10px;
 	display: flex;
 	flex-direction: column;
+	justify-content: space-between;
 }
 .movie-card__title {
 	font-weight: bold;
@@ -161,6 +161,12 @@ body {
 	font-size: 14px;
 }
 .movie-card__buttons {
+	height: 25px;
+	display: hidden;
+}
+.movie-card__button {
+	width: 15px;
+	height: 15px;
 	display: none;
 }
 .movie-card:hover .movie-card__buttons {
@@ -168,12 +174,11 @@ body {
 	justify-content: flex-end;
 	z-index: 2;
 }
+.movie-card:hover .movie-card__button {
+	display: block;
+}
 .movie-card:hover .movie-card__title {
 	color: #196afc;
-}
-.movie-card__button {
-	width: 15px;
-	height: 15px;
 }
 
 .footer {
