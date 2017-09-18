@@ -12,38 +12,41 @@
 
     <div class="movies-grid">
         {% for movie in dvd_releases %}
-            <a class="movie-card" href="#">
-                <div class="movie-card__container">
-                    <img class="movie-card__poster">
-                    <div class="movie-card__description">
-                        <div class="movie-card__title">
-                            {% if movie.title|length > 20 %}
-                                {{ movie.title|slice:":20" }} ...
-                            {% else %}
-                                {{ movie.title }}
-                            {% endif %}
-                        </div>
-                        <div class="movie-card__date">
-                            Release: <i>{{ movie.release_date }}</i>
-                        </div>
-                        <div class="movie-card__date">
-                            DVD release: <b><i>{{ movie.us_physical_release_date }}</i></b>
-                        </div>
-                        <div class="movie-card__excerpt">
-                            {% if movie.overview|length > 100 %}
-                                {{ movie.overview|slice:":100" }} ...
-                            {% else %}
-                                {{ movie.overview }}
-                            {% endif %}
-                        </div>
-                        <div class="movie-card__buttons">
-                            <div>
-                                <a href="#"><img class="movie-card__button" src="/static/images/add-plus-button.png"></a>
-                            </div>
+            <div class="movie-card">
+                <img class="movie-card__poster">
+                <div class="movie-card__description">
+                    <div class="movie-card__title">
+                        {% if movie.title|length > 20 %}
+                            {{ movie.title|slice:":20" }} ...
+                        {% else %}
+                            {{ movie.title }}
+                        {% endif %}
+                    </div>
+                    <div class="movie-card__date">
+                        Release: <i>{{ movie.release_date }}</i>
+                    </div>
+                    <div class="movie-card__date">
+                        DVD release: <b><i>{{ movie.us_physical_release_date }}</i></b>
+                    </div>
+                    <div class="movie-card__excerpt">
+                        {% if movie.overview|length > 100 %}
+                            {{ movie.overview|slice:":100" }} ...
+                        {% else %}
+                            {{ movie.overview }}
+                        {% endif %}
+                    </div>
+                    <div class="movie-card__buttons">
+                        <div>
+                            <a href="#add" title="Add">
+                                <img class="movie-card__button" src="/static/images/add-plus-button.png">
+                            </a>
                         </div>
                     </div>
                 </div>
-            </a>
+                <a class="movie-card__main-link" href="#" title="{{ movie.title }}">
+                    <span class="movie-card__main-link-cheat"></span>
+                </a>
+            </div>
         {% endfor %}
     </div>
 {% endblock content%}
