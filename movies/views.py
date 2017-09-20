@@ -39,6 +39,35 @@ def get_released_movies(request):
     }
     return render(request, 'movies/index.html', context)
 
+
+def get_not_released_movies(request):
+    dvd_releases = TmdbMovie.objects.all().filter(
+        us_physical_release_date__isnull=False
+    ).filter (
+        us_physical_release_date__gte=datetime.datetime.today()
+    ).order_by(
+        '-us_physical_release_date'
+    )
+    context = {
+        'dvd_releases': dvd_releases,
+        'movies_type': MovieType.NOT_RELEASED,
+    }
+    return render(request, 'movies/index.html', context)
+
+
+def get_unkn_release_movies(request):
+    dvd_releases = TmdbMovie.objects.all().filter(
+        us_physical_release_date__isnull=True
+    ).order_by(
+        '-release_date'
+    )
+    context = {
+        'dvd_releases': dvd_releases,
+        'movies_type': MovieType.UNKNOWN,
+    }
+    return render(request, 'movies/index.html', context)
+
+
 @staff_member_required
 def update(request):
     movies = TmdbMovie.objects.filter(us_physical_release_date__isnull=True)
