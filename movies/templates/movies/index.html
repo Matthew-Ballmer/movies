@@ -5,7 +5,7 @@
 {% endblock header %}
 
 {% block movies-nav %}
-{% include "movies/includes/movies_nav.html" with active_movies_nav="all" %}
+{% include "movies/includes/movies_nav.html" with active_movies_nav=movies_type %}
 {% endblock movies-nav %}
 
 {% block content %}
