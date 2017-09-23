@@ -97,6 +97,7 @@ body {
     float: left;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 }
 .movies-nav__link {
 	display: block;
