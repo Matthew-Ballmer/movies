@@ -10,8 +10,12 @@
 
 {% block content %}
 
+    {% if movies.has_other_pages %}
+        {% include "movies/includes/paginator.html" %}
+    {% endif %}
+
     <div class="movies-grid">
-        {% for movie in dvd_releases %}
+        {% for movie in movies %}
             <div class="movie-card">
                 <img class="movie-card__poster">
                 <div class="movie-card__description">
@@ -49,4 +53,9 @@
             </div>
         {% endfor %}
     </div>
+
+    {% if movies.has_other_pages %}
+        {% include "movies/includes/paginator.html" %}
+    {% endif %}
+
 {% endblock content%}

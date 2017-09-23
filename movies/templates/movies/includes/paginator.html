@@ -1,0 +1,33 @@
+<div class="paginator">
+    {% if movies.has_previous %}
+        <a class="paginator__item paginator__item_link"
+           href="?page={{ movies.previous_page_number }}">
+            Previous
+        </a>
+    {% endif %}
+    {% for range in page_numbers %}
+        {% if forloop.first is False %}
+            <span class="paginator__item">...</span>
+        {% endif %}
+
+        {% for i in range %}
+            {% if i == movies.number %}
+                <a class="paginator__item paginator__item_link paginator__item_active"
+                   href="?page={{ i }}">
+                    {{ i }}
+                </a>
+            {% else %}
+                <a class="paginator__item paginator__item_link"
+                   href="?page={{ i }}">
+                    {{ i }}
+                </a>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+    {% if movies.has_next %}
+        <a class="paginator__item paginator__item_link"
+           href="?page={{ movies.next_page_number }}">
+            Next
+        </a>
+    {% endif %}
+</div>
