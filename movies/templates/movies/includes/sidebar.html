@@ -1,0 +1,32 @@
+<div class="sidebar">
+    <div class="movies-nav">
+        <div class="movies-nav__item">
+            <a class="movies-nav__link {% if active_movies_nav == 'all' %}movies-nav__link_active{% endif %}" href="/">
+                All
+            </a>
+        </div>
+        <div class="movies-nav__item">
+            <a class="movies-nav__link {% if active_movies_nav == 'released' %}movies-nav__link_active{% endif %}"
+               href="/released">
+                Released
+            </a>
+        </div>
+        <div class="movies-nav__item">
+            <a class="movies-nav__link {% if active_movies_nav == 'not-released' %}movies-nav__link_active{% endif %}"
+               href="/not-released">
+                Not released
+            </a>
+        </div>
+        <div class="movies-nav__item">
+            <a class="movies-nav__link {% if active_movies_nav == 'unknown' %}movies-nav__link_active{% endif %}"
+               href="/unknown">
+                Unknown
+            </a>
+        </div>
+    </div>
+
+    <div class="counter">
+        <p>Movies: <b>{{ movies_count }}</b></p>
+        <p>Total: <b>{{ total_movies_count }}</b></p>
+    </div>
+</div>

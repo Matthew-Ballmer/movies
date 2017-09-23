@@ -95,6 +95,8 @@ def get_all_movies(request):
         'movies_type': MovieType.ALL,
         'movies': movies,
         'page_numbers': page_numbers,
+        'movies_count': all_movies.count(),
+        'total_movies_count': TmdbMovie.objects.all().count(),
     }
     return render(request, 'movies/index.html', context)
 
@@ -112,6 +114,8 @@ def get_released_movies(request):
         'movies_type': MovieType.RELEASED,
         'movies': movies,
         'page_numbers': page_numbers,
+        'movies_count': all_movies.count(),
+        'total_movies_count': TmdbMovie.objects.all().count(),
     }
     return render(request, 'movies/index.html', context)
 
@@ -129,6 +133,8 @@ def get_not_released_movies(request):
         'movies_type': MovieType.NOT_RELEASED,
         'movies': movies,
         'page_numbers': page_numbers,
+        'movies_count': all_movies.count(),
+        'total_movies_count': TmdbMovie.objects.all().count(),
     }
     return render(request, 'movies/index.html', context)
 
@@ -144,6 +150,8 @@ def get_unkn_release_movies(request):
         'movies_type': MovieType.UNKNOWN,
         'movies': movies,
         'page_numbers': page_numbers,
+        'movies_count': all_movies.count(),
+        'total_movies_count': TmdbMovie.objects.all().count(),
     }
     return render(request, 'movies/index.html', context)
 
