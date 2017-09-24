@@ -30,7 +30,11 @@
                         Release: <i>{{ movie.release_date }}</i>
                     </div>
                     <div class="movie-card__date">
-                        DVD release: <b><i>{{ movie.us_physical_release_date }}</i></b>
+                        {% if movie.us_physical_release_date == None %}
+                            DVD release: <b><i>Unknown</i></b>
+                        {% else %}
+                            DVD release: <b><i>{{ movie.us_physical_release_date }}</i></b>
+                        {% endif %}
                     </div>
                     <div class="movie-card__excerpt">
                         {% if movie.overview|length > 100 %}
