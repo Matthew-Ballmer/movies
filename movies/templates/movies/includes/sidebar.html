@@ -1,25 +1,26 @@
 <div class="sidebar">
     <div class="movies-nav">
         <div class="movies-nav__item">
-            <a class="movies-nav__link {% if active_movies_nav == 'all' %}movies-nav__link_active{% endif %}" href="/">
+            <a class="movies-nav__link {% if active_movies_nav == 'all' %}movies-nav__link_active{% endif %}"
+               href="{% if as_list %}/list{% else %}/{% endif %}">
                 All
             </a>
         </div>
         <div class="movies-nav__item">
             <a class="movies-nav__link {% if active_movies_nav == 'released' %}movies-nav__link_active{% endif %}"
-               href="/released">
+               href="{% if as_list %}/list/released{% else %}/released{% endif %}">
                 Released
             </a>
         </div>
         <div class="movies-nav__item">
             <a class="movies-nav__link {% if active_movies_nav == 'not-released' %}movies-nav__link_active{% endif %}"
-               href="/not-released">
+               href="{% if as_list %}/list/not-released{% else %}/not-released{% endif %}">
                 Not released
             </a>
         </div>
         <div class="movies-nav__item">
             <a class="movies-nav__link {% if active_movies_nav == 'unknown' %}movies-nav__link_active{% endif %}"
-               href="/unknown">
+               href="{% if as_list %}/list/unknown{% else %}/unknown{% endif %}">
                 Unknown
             </a>
         </div>

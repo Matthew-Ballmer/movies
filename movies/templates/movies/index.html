@@ -14,7 +14,8 @@
         {% include "movies/includes/paginator.html" %}
     {% endif %}
 
-    <div class="movies-grid">
+    {% block movies %}
+        <div class="movies-tile">
         {% for movie in movies %}
             <div class="movie-card">
                 <img class="movie-card__poster">
@@ -57,6 +58,7 @@
             </div>
         {% endfor %}
     </div>
+    {% endblock movies %}
 
     {% if movies.has_other_pages %}
         {% include "movies/includes/paginator.html" %}
@@ -97,6 +99,18 @@
                    target="_blank"
                    title="Google">
                     Google
+                </a>,
+                <a class="footer__link"
+                   href="https://www.flaticon.com/authors/dave-gandy"
+                   title="Dave Gandy"
+                   target="_blank">
+                    Dave Gandy
+                </a>,
+                <a class="footer__link"
+                   href="https://www.flaticon.com/authors/designerz-base"
+                   title="Designerz Base"
+                   target="_blank">
+                    Designerz Base
                 </a>
                 from <a class="footer__link"
                         href="https://www.flaticon.com"

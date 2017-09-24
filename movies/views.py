@@ -1,7 +1,7 @@
 import datetime
 
 from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -88,72 +88,88 @@ def get_one_page(request, qs, items_on_page, range_len):
     return items, page_numbers
 
 
-def get_all_movies(request):
-    all_movies = TmdbMovie.objects.all().order_by('-us_physical_release_date')
+def get_movies(request, movies_type, as_list):
+    """
+    Return all movies page.
+
+    :param movies_type: which movies to show
+    :type movies_type: str (MovieType field)
+
+    :param as_list: display as list if True, display as tile otherwise
+    :type as_list: bool
+    """
+    if movies_type == MovieType.ALL:
+        all_movies = TmdbMovie.objects.all().order_by('-us_physical_release_date')
+    elif movies_type == MovieType.RELEASED:
+        all_movies = TmdbMovie.objects.all().filter(
+            us_physical_release_date__isnull=False
+        ).filter(
+            us_physical_release_date__lt=datetime.datetime.today()
+        ).order_by(
+            '-us_physical_release_date'
+        )
+    elif movies_type == MovieType.NOT_RELEASED:
+        all_movies = TmdbMovie.objects.all().filter(
+            us_physical_release_date__isnull=False
+        ).filter(
+            us_physical_release_date__gte=datetime.datetime.today()
+        ).order_by(
+            '-us_physical_release_date'
+        )
+    elif movies_type == MovieType.UNKNOWN:
+        all_movies = TmdbMovie.objects.all().filter(
+            us_physical_release_date__isnull=True
+        ).order_by(
+            '-release_date'
+        )
+    else:
+        raise Http404("Movies type is not supported: {}".format(movies_type))
+
     movies, page_numbers = get_one_page(request, all_movies, MOVIES_ON_ONE_PAGE, PAGES_RANGE_LEN)
     context = {
-        'movies_type': MovieType.ALL,
+        'movies_type': movies_type,
         'movies': movies,
         'page_numbers': page_numbers,
         'movies_count': all_movies.count(),
         'total_movies_count': TmdbMovie.objects.all().count(),
+        'as_list': as_list,
     }
-    return render(request, 'movies/index.html', context)
+    if as_list:
+        return render(request, 'movies/index_list.html', context)
+    else:
+        return render(request, 'movies/index.html', context)
 
 
-def get_released_movies(request):
-    all_movies = TmdbMovie.objects.all().filter(
-        us_physical_release_date__isnull=False
-    ).filter(
-        us_physical_release_date__lt=datetime.datetime.today()
-    ).order_by(
-        '-us_physical_release_date'
-    )
-    movies, page_numbers = get_one_page(request, all_movies, MOVIES_ON_ONE_PAGE, PAGES_RANGE_LEN)
-    context = {
-        'movies_type': MovieType.RELEASED,
-        'movies': movies,
-        'page_numbers': page_numbers,
-        'movies_count': all_movies.count(),
-        'total_movies_count': TmdbMovie.objects.all().count(),
-    }
-    return render(request, 'movies/index.html', context)
+def get_all_movies_as_tile(request):
+    return get_movies(request, MovieType.ALL, as_list=False)
 
 
-def get_not_released_movies(request):
-    all_movies = TmdbMovie.objects.all().filter(
-        us_physical_release_date__isnull=False
-    ).filter (
-        us_physical_release_date__gte=datetime.datetime.today()
-    ).order_by(
-        '-us_physical_release_date'
-    )
-    movies, page_numbers = get_one_page(request, all_movies, MOVIES_ON_ONE_PAGE, PAGES_RANGE_LEN)
-    context = {
-        'movies_type': MovieType.NOT_RELEASED,
-        'movies': movies,
-        'page_numbers': page_numbers,
-        'movies_count': all_movies.count(),
-        'total_movies_count': TmdbMovie.objects.all().count(),
-    }
-    return render(request, 'movies/index.html', context)
+def get_all_movies_as_list(request):
+    return get_movies(request, MovieType.ALL, as_list=True)
 
 
-def get_unkn_release_movies(request):
-    all_movies = TmdbMovie.objects.all().filter(
-        us_physical_release_date__isnull=True
-    ).order_by(
-        '-release_date'
-    )
-    movies, page_numbers = get_one_page(request, all_movies, MOVIES_ON_ONE_PAGE, PAGES_RANGE_LEN)
-    context = {
-        'movies_type': MovieType.UNKNOWN,
-        'movies': movies,
-        'page_numbers': page_numbers,
-        'movies_count': all_movies.count(),
-        'total_movies_count': TmdbMovie.objects.all().count(),
-    }
-    return render(request, 'movies/index.html', context)
+def get_released_movies_as_tile(request):
+    return get_movies(request, MovieType.RELEASED, as_list=False)
+
+
+def get_released_movies_as_list(request):
+    return get_movies(request, MovieType.RELEASED, as_list=True)
+
+
+def get_not_released_movies_as_tile(request):
+    return get_movies(request, MovieType.NOT_RELEASED, as_list=False)
+
+
+def get_not_released_movies_as_list(request):
+    return get_movies(request, MovieType.NOT_RELEASED, as_list=True)
+
+
+def get_unkn_release_movies_as_tile(request):
+    return get_movies(request, MovieType.UNKNOWN, as_list=False)
+
+
+def get_unkn_release_movies_as_list(request):
+    return get_movies(request, MovieType.UNKNOWN, as_list=True)
 
 
 @staff_member_required

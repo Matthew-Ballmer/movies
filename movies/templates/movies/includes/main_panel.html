@@ -3,11 +3,17 @@
         <div class="nav__item">
             <div class="nav__logo-container">
                 <img height="20px" width="20px" class="nav__logo" src="/static/images/dvd-disc.png">
-                <a class="nav__link" href="/">The second premieres</a>
+                <a class="nav__link"
+                   href="{% if as_list %}/list{% else %}/{% endif %}">
+                    The second premieres
+                </a>
             </div>
         </div>
         <div class="nav__item {% if active_tab == 'database' %}nav__item_active{% endif %}">
-            <a class="nav__link {% if active_tab == 'database' %}nav__link_active{% endif %}" href="/">Database</a>
+            <a class="nav__link {% if active_tab == 'database' %}nav__link_active{% endif %}"
+               href="{% if as_list %}/list{% else %}/{% endif %}">
+                Database
+            </a>
         </div>
         <div class="nav__item {% if active_tab == 'watchlist' %}nav__item_active{% endif %}">
             <a class="nav__link {% if active_tab == 'watchlist' %}nav__link_active{% endif %}" href="#">Watchlist</a>
@@ -15,6 +21,17 @@
     </div>
 
     <div class="toolbox">
+        <div class="toolbox__item">
+            {% if as_list %}
+                <a href="/">
+                    <img width="20px" height="20px" class="toolbox__icon" src="/static/images/tile.png">
+                </a>
+            {% else %}
+                <a href="/list">
+                    <img width="20px" height="20px" class="toolbox__icon" src="/static/images/list.png">
+                </a>
+            {% endif %}
+        </div>
         <div class="toolbox__item">
             <a href="#"><img width="20px" height="20px" class="toolbox__icon" src="/static/images/search.png"></a>
         </div>

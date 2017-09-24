@@ -8,6 +8,7 @@
     grey border: #ddd;
     grey toolbox item: #d8d8d8;
     grey panel: #eee;
+    card border: #eaebed;
 */
 
 html,
@@ -197,13 +198,13 @@ body {
 	color: #a9c0e8;
 }
 
-.movies-grid {
+.movies-tile {
 	display: flex;
 	flex-wrap: wrap;
 }
 
 .movie-card {
-	position: relative;
+	position: relative;  /* this is for .movie-card__main-link-cheat */
 	background-color: white;
 	border: 1px solid #eaebed;
 	height: 190px;
@@ -266,6 +267,80 @@ body {
 	color: #a9c0e8;
 }
 
+.movies-list {
+	margin-top: 30px;
+	margin-left: auto;
+	margin-right: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.movie-longcard {
+	position: relative;  /* this is for .movie-card__main-link-cheat */
+	background-color: white;
+	border: 1px solid #eaebed;
+	width: 95%;
+	margin: 5px 20px;
+	display: flex;
+	flex-direction: row;
+}
+.movie-longcard__main-link {
+}
+.movie-longcard__main-link-cheat {
+	position:absolute;
+	width:100%;
+	height:100%;
+	top:0;
+	left: 0;
+	z-index: 1;
+}
+.movie-longcard__poster {
+	min-width: 130px;
+	height: 190px;
+}
+.movie-longcard__description {
+	color: #242830;
+	width: 500px;
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+.movie-longcard__title {
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+.movie-longcard__date {
+	margin-bottom: 10px;
+	font-size: 14px;
+}
+.movie-longcard__excerpt {
+	font-size: 14px;
+}
+.movie-longcard__buttons {
+	height: 25px;
+	display: hidden;
+	margin-top: 10px;
+}
+.movie-longcard__button {
+	width: 15px;
+	height: 15px;
+	display: none;
+}
+.movie-longcard:hover .movie-longcard__buttons {
+	display: flex;
+	justify-content: flex-start;
+	z-index: 2;
+}
+.movie-longcard:hover .movie-longcard__button {
+	display: block;
+}
+.movie-longcard:hover .movie-longcard__title {
+	color: #a9c0e8;
+}
+
+
 .footer {
     position: absolute;
     bottom: 0;
@@ -295,7 +370,9 @@ body {
 }
 .footer__credits-text {
 }
-.footer__link {
+.footer__link,
+.footer__link:link,
+.footer__link:active {
 	color: #242830;
 }
 .footer__link:visited {

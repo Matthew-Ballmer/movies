@@ -1,0 +1,39 @@
+{% extends "movies/index.html" %}
+
+{% block movies %}
+    <div class="movies-list">
+        {% for movie in movies %}
+            <div class="movie-longcard">
+                <img class="movie-longcard__poster">
+                <div class="movie-longcard__description">
+                    <div class="movie-longcard__title">
+                        {{ movie.title }}
+                    </div>
+                    <div class="movie-longcard__date">
+                        Release: <i>{{ movie.release_date }}</i>
+                    </div>
+                    <div class="movie-longcard__date">
+                        {% if movie.us_physical_release_date == None %}
+                            DVD release: <b><i>Unknown</i></b>
+                        {% else %}
+                            DVD release: <b><i>{{ movie.us_physical_release_date }}</i></b>
+                        {% endif %}
+                    </div>
+                    <div class="movie-longcard__excerpt">
+                        {{ movie.overview }}
+                    </div>
+                    <div class="movie-longcard__buttons">
+                        <div>
+                            <a href="#add" title="Add">
+                                <img class="movie-longcard__button" src="/static/images/add-plus-button.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <a class="movie-longcard__main-link" href="#" title="{{ movie.title }}">
+                    <span class="movie-longcard__main-link-cheat"></span>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock movies %}
