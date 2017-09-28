@@ -170,20 +170,3 @@ def get_unkn_release_movies_as_tile(request):
 
 def get_unkn_release_movies_as_list(request):
     return get_movies(request, MovieType.UNKNOWN, as_list=True)
-
-
-@staff_member_required
-def update(request):
-    movies = TmdbMovie.objects.filter(us_physical_release_date__isnull=True)
-    for movie in movies:
-        movie.update_info()
-        movie.save()
-        # print("updated movie: {}".format(movie.title))
-
-    return HttpResponseRedirect(reverse('movies:index'))
-
-
-@staff_member_required
-def add_movies(request):
-    TmdbMovie.add_movies()
-    return HttpResponseRedirect(reverse('movies:index'))

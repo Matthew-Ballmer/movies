@@ -4,9 +4,6 @@ from . import views
 
 app_name = 'movies'
 urlpatterns = [
-    url(r'^update/$', views.update, name='update'),
-    url(r'^add-movies/$', views.add_movies, name='add-movies'),
-
     url(r'^$', views.get_all_movies_as_tile, name='index'),
     url(r'^list/$', views.get_all_movies_as_list, name='list-index'),
 
