@@ -7,4 +7,4 @@ class Command(BaseCommand):
     help = 'Update movies database through TMDB API'
 
     def handle(self, *args, **options):
-        TmdbMovie.add_movies()
+        TmdbMovie.add_movies(verbose=True)

@@ -1,3 +1,6 @@
+import sys
+from requests.exceptions import HTTPError
+
 import django.utils.timezone
 from django.db import models
 
@@ -48,7 +51,12 @@ class TmdbMovie(models.Model):
         tmdb.API_KEY = settings.TMDB_API_KEY
         moviesApi = tmdb.Movies()
         moviesApi.id = self.id
-        res = moviesApi.info(append_to_response="release_dates")
+        try:
+            moviesApi.info(append_to_response="release_dates")
+        except HTTPError as ex:
+            print("Update movie failed: {}".format(self.title), file=sys.stderr)
+            print(ex)
+            return
 
         # Update dates:
         self.update_time = django.utils.timezone.now()
@@ -77,7 +85,7 @@ class TmdbMovie(models.Model):
         return django.utils.timezone.datetime(year, month, day)
 
     @classmethod
-    def add_movies(cls):
+    def add_movies(cls, verbose):
         tmdb.API_KEY = settings.TMDB_API_KEY
         moviesApi = tmdb.Movies()
         moviesApi.now_playing()
@@ -86,18 +94,21 @@ class TmdbMovie(models.Model):
 
         # Parse first page:
         for movie in moviesApi.results:
-            TmdbMovie.create_movie_if_new(movie['id'], movie['title'])
+            TmdbMovie.create_movie_if_new(movie['id'], movie['title'], verbose)
 
         # Parse the rest of pages:
         for page in range(2, total_pages + 1, 1):
             moviesApi.now_playing(page=page)
 
             for movie in moviesApi.results:
-                TmdbMovie.create_movie_if_new(movie['id'], movie['title'])
+                TmdbMovie.create_movie_if_new(movie['id'], movie['title'], verbose)
 
     @classmethod
-    def create_movie_if_new(cls, id, title):
+    def create_movie_if_new(cls, id, title, verbose):
         """If movie with such id does not exist, then create one"""
         if 0x00 == TmdbMovie.objects.filter(id=id).count():
             newMovie = TmdbMovie(id=id, title=title)
             newMovie.save()
+            if verbose:
+                print("Added movie: {}".format(title))
+
