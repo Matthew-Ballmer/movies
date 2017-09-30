@@ -88,9 +88,7 @@ class TmdbMovie(models.Model):
     def add_movies(cls, verbose):
         tmdb.API_KEY = settings.TMDB_API_KEY
         moviesApi = tmdb.Movies()
-        moviesApi.now_playing()
-
-        total_pages = moviesApi.total_pages
+        total_pages = cls.get_now_playing_first_page(moviesApi)
 
         # Parse first page:
         for movie in moviesApi.results:
@@ -98,10 +96,21 @@ class TmdbMovie(models.Model):
 
         # Parse the rest of pages:
         for page in range(2, total_pages + 1, 1):
-            moviesApi.now_playing(page=page)
+            cls.get_now_playing_nth_page(moviesApi, page)
 
             for movie in moviesApi.results:
                 TmdbMovie.create_movie_if_new(movie['id'], movie['title'], verbose)
+
+    @classmethod
+    @rate_limited(API_REQUESTS_LIMIT, API_WINDOW_DURATION)
+    def get_now_playing_first_page(cls, moviesApi):
+        moviesApi.now_playing()
+        return moviesApi.total_pages
+
+    @classmethod
+    @rate_limited(API_REQUESTS_LIMIT, API_WINDOW_DURATION)
+    def get_now_playing_nth_page(cls, moviesApi, page):
+        moviesApi.now_playing(page=page)
 
     @classmethod
     def create_movie_if_new(cls, id, title, verbose):
