@@ -1,4 +1,5 @@
 import sys
+import datetime
 from requests.exceptions import HTTPError
 
 import django.utils.timezone
@@ -8,6 +9,8 @@ from django.conf import settings
 
 import tmdbsimple as tmdb
 from ratelimit import rate_limited
+
+from .exceptions import MovieDateError
 
 
 class TmdbMovie(models.Model):
@@ -60,16 +63,29 @@ class TmdbMovie(models.Model):
 
         # Update dates:
         self.update_time = django.utils.timezone.now()
-        self.release_date = moviesApi.release_date
+        try:
+            self.release_date = self._parse_date(moviesApi.release_date)
+        except MovieDateError:
+            print("Couldn't parse release date: '{}'".format(moviesApi.release_date), file=sys.stderr)
 
         for result in moviesApi.release_dates['results']:
             if result[self.COUNTRY_ISO] == 'US':
                 release_dates = result['release_dates']
                 for release_date in release_dates:
                     if release_date['type'] == self.ReleaseType.DIGITAL:
-                        self.us_digital_release_date = self._parse_date(release_date['release_date'])
+                        try:
+                            self.us_digital_release_date = self._parse_date(release_date['release_date'])
+                        except MovieDateError:
+                            print("Couldn't parse US digital release date: '{}'".format(release_date['release_date']),
+                                  file=sys.stderr)
+                            self.us_digital_release_date = None
                     elif release_date['type'] == self.ReleaseType.PHYSICAL:
-                        self.us_physical_release_date = self._parse_date(release_date['release_date'])
+                        try:
+                            self.us_physical_release_date = self._parse_date(release_date['release_date'])
+                        except MovieDateError:
+                            print("Couldn't parse US physical release date: '{}'".format(release_date['release_date']),
+                                  file=sys.stderr)
+                            self.us_physical_release_date = None
 
         # Update info:
         self.title = moviesApi.title
@@ -77,12 +93,17 @@ class TmdbMovie(models.Model):
         self.runtime = moviesApi.runtime
         self.imdb_id = moviesApi.imdb_id
 
-    def _parse_date(self, date_str):
-        """Parse TMDB date expected in YYYY-MM-DD format"""
-        year = int(date_str[0:4])
-        month = int(date_str[5:7])
-        day = int(date_str[8:10])
-        return django.utils.timezone.datetime(year, month, day)
+    @staticmethod
+    def _parse_date(date_str):
+        """Parse TMDB date expected in YYYY-MM-DD format
+
+        :raise: MovieDateError
+        """
+        try:
+            date = datetime.datetime.strptime(date_str, '%Y-%m-%d')
+        except ValueError:
+            raise MovieDateError()
+        return date
 
     @classmethod
     def add_movies(cls, verbose):
