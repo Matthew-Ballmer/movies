@@ -1,5 +1,5 @@
 import sys
-import datetime
+import dateutil.parser
 from requests.exceptions import HTTPError
 
 import django.utils.timezone
@@ -100,7 +100,7 @@ class TmdbMovie(models.Model):
         :raise: MovieDateError
         """
         try:
-            date = datetime.datetime.strptime(date_str, '%Y-%m-%d')
+            date = dateutil.parser.parse(date_str)
         except ValueError:
             raise MovieDateError()
         return date
