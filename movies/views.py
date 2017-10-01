@@ -1,10 +1,9 @@
 import datetime
 
 from django.shortcuts import render
-from django.http import HttpResponseRedirect, Http404
-from django.urls import reverse
-from django.contrib.admin.views.decorators import staff_member_required
+from django.http import Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.utils.html import escape
 
 from .models import TmdbMovie
 
@@ -124,6 +123,10 @@ def get_movies(request, movies_type, as_list):
         )
     else:
         raise Http404("Movies type is not supported: {}".format(movies_type))
+
+    if request.POST.get("search-field") is not None:
+        search_query = escape(request.POST.get("search-field").strip())
+        all_movies = all_movies.filter(title__icontains=search_query)
 
     movies, page_numbers = get_one_page(request, all_movies, MOVIES_ON_ONE_PAGE, PAGES_RANGE_LEN)
     context = {
