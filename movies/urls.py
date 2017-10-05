@@ -15,4 +15,6 @@ urlpatterns = [
 
     url(r'^unknown/$', views.get_unkn_release_movies_as_tile, name='get-unknown'),
     url(r'^list/unknown/$', views.get_unkn_release_movies_as_list, name='get-unknown'),
+
+    url(r'^search-autocomplete/$', views.get_search_autocomplete, name='search-autocomplete'),
 ]

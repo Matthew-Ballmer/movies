@@ -21,7 +21,7 @@
     </div>
 
     <div class="toolbox">
-        <div class="toolbox__item">
+        <div class="toolbox__item ui-widget">
             <!--<a href="#">-->
                 <!--<img width="20px" height="20px" class="toolbox__icon" src="/static/images/search.png">-->
             <!--</a>-->
@@ -30,7 +30,8 @@
                 <input class="search-form__input"
                        type="search"
                        name="search-field"
-                       id="search-field-id">
+                       id="search-field-id"
+                       data-search-autocomplete-url='{% url "movies:search-autocomplete" %}'>
                 <input class="search-form__button"
                        type="submit"
                        id="search-submit-id"
@@ -78,4 +79,8 @@
             </div>
         {% endif %}
     </div>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="/static/js/search.js"></script>
 </div>

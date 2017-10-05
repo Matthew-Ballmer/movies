@@ -1,7 +1,8 @@
 import datetime
+import json
 
 from django.shortcuts import render
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.html import escape
 
@@ -173,3 +174,20 @@ def get_unkn_release_movies_as_tile(request):
 
 def get_unkn_release_movies_as_list(request):
     return get_movies(request, MovieType.UNKNOWN, as_list=True)
+
+
+def get_search_autocomplete(request):
+    if request.is_ajax():
+        search_query = escape(request.GET.get("term"))
+        movies = TmdbMovie.objects.all().filter(title__icontains=search_query)[:10]
+        movies_list = []
+        for movie in movies:
+            movies_list.append({
+                'id': movie.id,
+                'label': movie.title,
+                'value': movie.title
+            })
+        data = json.dumps(movies_list)
+    else:
+        data = 'fail'
+    return HttpResponse(data, 'application/json')
